@@ -1,5 +1,4 @@
 s.waitForBoot({
-
 	SynthDef(\sin, {
 		arg freq = 440, lagFreq = 0.01, phase = 0, lagPhase = 0.01, amp = 0.5, lagAmp = 0.01, pos = 0, lagPos = 0.01;
 		var
@@ -11,6 +10,15 @@ s.waitForBoot({
 	//
 	Stethoscope.new.style_(2).size_(1000);
 	~partials = Array.newClear(24);
+	//
+	r = Task({
+		45.do({
+			4.do({|i| ~partials[17+i].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4))});
+			0.5.wait;
+			4.do({|i| ~partials[17+i].set(\amp, 0)});
+			0.5.wait;
+		});
+	});
 	//
 	t = Task({
 		1.do({
@@ -42,154 +50,47 @@ s.waitForBoot({
 			~partials[19] = Synth(\sin, [\freq, 400, \pos, 0.75, \phase, 0, \amp, 0]);
 			~partials[20] = Synth(\sin, [\freq, 500, \pos, -0.75, \phase, pi/2, \amp, 0]);
 			1.wait;
-			~partials[17].set(\amp, 0.3, \lagAmp, 7.3);
-			~partials[18].set(\amp, 0.3, \lagAmp, 8.7);
-			~partials[19].set(\amp, 0.3, \lagAmp, 10.4);
-			~partials[20].set(\amp, 0.3, \lagAmp, 11.3);
+			4.do({|i| ~partials[17+i].set(\amp, 0.3, \lagAmp, rrand(7.3, 11.3))});
 			10.wait;
-			~partials[17].set(\amp, 0);
-			~partials[18].set(\amp, 0);
-			~partials[19].set(\amp, 0);
-			~partials[20].set(\amp, 0);
+			4.do({|i| ~partials[17+i].set(\amp, 0)});
 			7.wait;
-			~partials[17].set(\amp, 0.3, \lagAmp, 6.3);
-			~partials[18].set(\amp, 0.3, \lagAmp, 7.7);
-			~partials[19].set(\amp, 0.3, \lagAmp, 8.4);
-			~partials[20].set(\amp, 0.3, \lagAmp, 9.3);
+			4.do({|i| ~partials[17+i].set(\amp, 0.3, \lagAmp, rrand(6.3, 9.3))});
 			6.wait;
-			~partials[17].set(\amp, 0);
-			~partials[18].set(\amp, 0);
-			~partials[19].set(\amp, 0);
-			~partials[20].set(\amp, 0);
+			4.do({|i| ~partials[17+i].set(\amp, 0)});
 			5.wait;
-			~partials[17].set(\amp, 0.3, \lagAmp, 4.4);
-			~partials[18].set(\amp, 0.3, \lagAmp, 3.5);
-			~partials[19].set(\amp, 0.3, \lagAmp, 4.9);
-			~partials[20].set(\amp, 0.3, \lagAmp, 2.1);
+			4.do({|i| ~partials[17+i].set(\amp, 0.3, \lagAmp, rrand(2.1, 4.9))});
 			4.wait;
-			~partials[17].set(\amp, 0);
-			~partials[18].set(\amp, 0);
-			~partials[19].set(\amp, 0);
-			~partials[20].set(\amp, 0);
+			4.do({|i| ~partials[17+i].set(\amp, 0)});
 			3.wait;
-			~partials[17].set(\amp, 0.3, \lagAmp, 1.1);
-			~partials[18].set(\amp, 0.3, \lagAmp, 1.5);
-			~partials[19].set(\amp, 0.3, \lagAmp, 1.7);
-			~partials[20].set(\amp, 0.3, \lagAmp, 1.3);
+			4.do({|i| ~partials[17+i].set(\amp, 0.3, \lagAmp, rrand(1.1, 1.7))});
 			2.wait;
-			~partials[17].set(\amp, 0);
-			~partials[18].set(\amp, 0);
-			~partials[19].set(\amp, 0);
-			~partials[20].set(\amp, 0);
+			4.do({|i| ~partials[17+i].set(\amp, 0)});
 			1.wait;
-			~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.7, 1.0));
-			~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.7, 1.0));
-			~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.7, 1.0));
-			~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.7, 1.0));
+			4.do({|i| ~partials[17+i].set(\amp, 0.3, \lagAmp, rrand(0.7, 1.0))});
 			0.7.wait;
-			~partials[17].set(\amp, 0);
-			~partials[18].set(\amp, 0);
-			~partials[19].set(\amp, 0);
-			~partials[20].set(\amp, 0);
+			4.do({|i| ~partials[17+i].set(\amp, 0)});
 			0.5.wait;
-			5.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
+			r.start;
+			5.wait;
 			10.do({|i| ~partials[i] = Synth(\sin, [\freq, 50*(i+1), \pos, rrand(1.0, -1.0), \amp, 1/10])});
-			5.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
+			5.wait;
 			10.do({|i| ~partials[i].set(\freq, 50*(i+1) + rrand(5.0, 10.0), \lagFreq, 4)});
-			5.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
+			5.wait;
 			10.do({|i| ~partials[i].set(\freq, 50*(i+1), \lagFreq, 4) });
-			5.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
+			5.wait;
 			10.do({|i| ~partials[i].set(\freq, 50*(i+1) + rrand(5.0, 10.0), \lagFreq, 3)});
-			5.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
+			5.wait;
 			10.do({|i| ~partials[i].set(\freq, 50*(i+1), \lagFreq, 3) });
-			5.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[19].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
+			5.wait;
 			10.do({|i| ~partials[i].set(\amp, 0, \lagAmp, 7)});
 			~partials[15].set(\freq, 150, \lagFreq, 10);
 			~partials[16].set(\freq, 300.1, \lagFreq, 10);
-			15.do({
-				~partials[17].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[18].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[29].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				~partials[20].set(\amp, 0.3, \lagAmp, rrand(0.1, 0.4));
-				0.5.wait;
-				~partials[17].set(\amp, 0);
-				~partials[18].set(\amp, 0);
-				~partials[19].set(\amp, 0);
-				~partials[20].set(\amp, 0);
-				0.5.wait;
-			});
-			15.wait;
+			30.wait;
 			~partials[15].set(\amp, 0, \lagAmp, 15);
 			~partials[16].set(\amp, 0, \lagAmp, 15);
+			16.wait;
+			s.freeAll;
 		});
 	}).start;
 })
-
-
 //EOF
