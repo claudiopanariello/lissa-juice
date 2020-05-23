@@ -96,8 +96,8 @@ s.waitForBoot({
 		1.wait;
 		"CIAO".postln;
 		//
-		~par[0].set(\freq, fond1, \amp, 0.2, \lagAmp, 1);
-		~par[1].set(\freq, fond1, \amp, 0.2, \lagAmp, 1);
+		~par[0].set(\freq, fond, \amp, 0.2, \lagAmp, 1);
+		~par[1].set(\freq, fond, \amp, 0.2, \lagAmp, 1);
 		2.wait;
 		t.start;
 		35.wait;
